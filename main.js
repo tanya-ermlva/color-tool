@@ -31,36 +31,36 @@ function render(inputColor) {
   // Define the swatches to display
   const lightSwatches = [
     { 
-      label: 'Action Color', 
-      bg: tokens.actionColor_light, 
+      label: 'Base 500', 
+      bg: tokens['custom-base-500_light'], 
       text: tokens.textColorOnActionColor_light 
     },
     { 
-      label: 'Darker Variant', 
-      bg: tokens.actionColorDarker_light 
+      label: 'Base 900', 
+      bg: tokens['custom-base-900_light'] 
     },
     { 
-      label: 'Lighter Variant', 
-      bg: tokens.actionColorLighter_light 
+      label: 'Base 100', 
+      bg: tokens['custom-base-100_light'] 
     }
   ];
 
   const darkSwatches = [
     { 
-      label: 'Action Color', 
-      bg: tokens.actionColor_dark, 
+      label: 'Base 500', 
+      bg: tokens['custom-base-500_dark'], 
       text: tokens.textColorOnActionColor_dark, 
       dark: true,
       accessibility: '✓ WCAG AA compliant'
     },
     { 
-      label: 'Darker Variant', 
-      bg: tokens.actionColorDarker_dark,
+      label: 'Base 900', 
+      bg: tokens['custom-base-900_dark'],
       dark: true
     },
     { 
-      label: 'Lighter Variant', 
-      bg: tokens.actionColorLighter_dark,
+      label: 'Base 100', 
+      bg: tokens['custom-base-100_dark'],
       dark: true
     }
   ];
@@ -78,6 +78,10 @@ function render(inputColor) {
   // Add groups to results
   results.appendChild(lightModeGroup);
   results.appendChild(darkModeGroup);
+
+  // Add UI components
+  addUIComponents(lightModeGroup, tokens, false);
+  addUIComponents(darkModeGroup, tokens, true);
 }
 
 /**
@@ -114,6 +118,41 @@ function createSwatch(swatch) {
   wrapper.appendChild(label);
 
   return wrapper;
+}
+
+/**
+ * Creates UI components to demonstrate color usage
+ * @param {HTMLElement} container - The container to add components to
+ * @param {Object} tokens - Color tokens
+ * @param {boolean} isDark - Whether this is for dark mode
+ */
+function addUIComponents(container, tokens, isDark) {
+  const uiComponents = document.createElement('div');
+  uiComponents.className = 'ui-components';
+
+  // Message Bubble
+  const messageBubble = document.createElement('div');
+  messageBubble.className = 'ui-component';
+  messageBubble.innerHTML = `
+    <h4>Message Bubble</h4>
+    <div class="message-bubble" style="background-color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}; color: ${isDark ? tokens.textColorOnActionColor_dark : tokens.textColorOnActionColor_light}">
+      Hello! This is a message bubble using the action color.
+    </div>
+  `;
+  uiComponents.appendChild(messageBubble);
+
+  // Pill
+  const pill = document.createElement('div');
+  pill.className = 'ui-component';
+  pill.innerHTML = `
+    <h4>Pill</h4>
+    <div class="pill" style="color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}; background-color: ${isDark ? tokens['custom-base-100_dark'] : tokens['custom-base-100_light']}">
+      Action Pill
+    </div>
+  `;
+  uiComponents.appendChild(pill);
+
+  container.appendChild(uiComponents);
 }
 
 // Initial render with the default color

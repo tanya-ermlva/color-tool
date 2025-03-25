@@ -80,3 +80,48 @@ body {
     opacity: 0.9;
   }
   
+  /* UI Components */
+  .ui-components {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .swatch-group.dark .ui-components {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .ui-component {
+    margin-bottom: 1.5rem;
+  }
+  
+  .ui-component h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: inherit;
+    opacity: 0.8;
+  }
+  
+  /* Message Bubble */
+  .message-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  
+  /* Pill */
+  .pill {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  
