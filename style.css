@@ -1,0 +1,82 @@
+body {
+    font-family: sans-serif;
+    background: #f9f9f9;
+    padding: 2rem;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .swatch-group {
+    flex: 1;
+    min-width: 300px;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .swatch-group.dark {
+    background: #121212;
+    color: #fff;
+  }
+  
+  .swatch-group h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    color: inherit;
+  }
+  
+  .swatch {
+    width: 150px;
+    height: 80px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.8rem;
+    position: relative;
+    margin-bottom: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .swatch-group.dark .swatch {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .swatch + .label {
+    margin-top: 4px;
+    font-size: 0.8rem;
+    text-align: left;
+    color: inherit;
+    width: 150px;
+    padding-left: 4px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .accessibility {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: normal;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    opacity: 0.9;
+  }
+  
