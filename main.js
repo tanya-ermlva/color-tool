@@ -177,6 +177,31 @@ function addUIComponents(container, tokens, isDark) {
   `;
   uiComponents.appendChild(pill);
 
+  // Bold Text
+  const boldText = document.createElement('div');
+  boldText.className = 'ui-component';
+  boldText.innerHTML = `
+    <h4>Bold Text</h4>
+    <div class="bold-text" style="color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}">
+      This is bold text using the action color
+    </div>
+  `;
+  uiComponents.appendChild(boldText);
+
+  // Messages Icon
+  const messagesIcon = document.createElement('div');
+  messagesIcon.className = 'ui-component';
+  messagesIcon.innerHTML = `
+    <h4>Messages Icon</h4>
+    <div class="messages-icon" style="color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+      </svg>
+      <span>Conversations</span>
+    </div>
+  `;
+  uiComponents.appendChild(messagesIcon);
+
   container.appendChild(uiComponents);
 }
 

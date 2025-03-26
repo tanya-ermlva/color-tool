@@ -23,10 +23,10 @@ export function getDarkModeTokens(actionColor) {
   
   if (l > 0.75) {
     // Light colors: Make much darker
-    adjusted = chroma.mix(color, DARK_BG, 0.85);
+    adjusted = chroma.mix(color, DARK_BG, 0.89);
   } else if (l < 0.3) {
     // Dark colors: Lighten for visibility
-    adjusted = chroma.mix(color, 'white', 0.1);
+    adjusted = chroma.mix(color, 'white', 0.05);
   } else {
     // Medium-light colors: Slightly darker
     adjusted = chroma.mix(color, DARK_BG, 0.95);
@@ -40,10 +40,10 @@ export function getDarkModeTokens(actionColor) {
   while (contrast < MIN_UI_CONTRAST && attempts < MAX_ATTEMPTS) {
     if (chroma(adjusted).get('hsl.l') < 0.5) {
       // If too dark, lighten slightly
-      adjusted = chroma.mix(adjusted, 'white', 0.1);
+      adjusted = chroma.mix(adjusted, 'white', 0.02);
     } else {
       // If too light, darken slightly
-      adjusted = chroma.mix(adjusted, DARK_BG, 0.1);
+      adjusted = chroma.mix(adjusted, DARK_BG, 0.12);
     }
     contrast = chroma.contrast(adjusted, DARK_BG);
     attempts++;
