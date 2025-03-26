@@ -2,11 +2,34 @@ import { getDarkModeTokens } from './utils/colorTransform.js';
 
 // Get references to DOM elements
 const picker = document.getElementById('colorPicker');
+const hexInput = document.getElementById('hexInput');
 const results = document.getElementById('results');
 
 // Listen for color changes in the color picker
 picker.addEventListener('input', () => {
+  hexInput.value = picker.value.toUpperCase();
   render(picker.value);
+});
+
+// Listen for hex code input
+hexInput.addEventListener('input', (e) => {
+  const value = e.target.value;
+  // Only update if it's a valid hex code
+  if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+    picker.value = value;
+    render(value);
+  }
+});
+
+// Listen for hex code paste
+hexInput.addEventListener('paste', (e) => {
+  e.preventDefault();
+  const pastedText = e.clipboardData.getData('text');
+  // Remove any non-hex characters and ensure it starts with #
+  const cleanHex = '#' + pastedText.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+  hexInput.value = cleanHex.toUpperCase();
+  picker.value = cleanHex;
+  render(cleanHex);
 });
 
 /**
@@ -41,7 +64,8 @@ function render(inputColor) {
     },
     { 
       label: 'Base 100', 
-      bg: tokens['custom-base-100_light'] 
+      bg: tokens['custom-base-100_light'],
+      text: tokens['custom-base-500_light']  // Use base-500 color for label text
     }
   ];
 
@@ -61,6 +85,7 @@ function render(inputColor) {
     { 
       label: 'Base 100', 
       bg: tokens['custom-base-100_dark'],
+      text: tokens['custom-base-500_dark'],
       dark: true
     }
   ];
@@ -96,7 +121,7 @@ function createSwatch(swatch) {
   el.style.backgroundColor = swatch.bg;
   el.style.color = swatch.text || '#fff';
   // Add border for dark mode swatches to make them visible
-  if (swatch.dark) el.style.border = '1px solid #333';
+//   if (swatch.dark) el.style.border = '1px solid #333';
   el.innerText = swatch.label;
 
   // Add accessibility indicator if present

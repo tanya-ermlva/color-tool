@@ -12,8 +12,14 @@
   <div class="container">
     <h1>Messenger Color Tester</h1>
 
-    <label for="colorPicker">Pick action color:</label>
-    <input type="color" id="colorPicker" value="#ff69b4">
+    <div class="color-input-group">
+      <label for="colorPicker">Pick action color:</label>
+      <input type="color" id="colorPicker" value="#ff69b4">
+      <div class="hex-input">
+        <label for="hexInput">Or enter hex:</label>
+        <input type="text" id="hexInput" placeholder="#000000" pattern="^#[0-9A-Fa-f]{6}$">
+      </div>
+    </div>
 
     <div id="results" class="grid">
       <!-- Swatches get inserted here -->

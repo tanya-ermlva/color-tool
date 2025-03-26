@@ -9,6 +9,31 @@ body {
     margin: auto;
   }
   
+  .color-input-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hex-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .hex-input input {
+    width: 100px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+  
+  .hex-input input:invalid {
+    border-color: #ff4444;
+  }
+  
   .grid {
     display: flex;
     flex-wrap: wrap;
@@ -22,7 +47,7 @@ body {
     padding: 1.5rem;
     border-radius: 8px;
     background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   }
   
   .swatch-group.dark {
@@ -50,11 +75,6 @@ body {
     padding: 0.8rem;
     position: relative;
     margin-bottom: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .swatch-group.dark .swatch {
-    border-color: rgba(255, 255, 255, 0.2);
   }
   
   .swatch + .label {
