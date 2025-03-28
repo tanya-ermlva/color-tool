@@ -1,13 +1,18 @@
 import { getDarkModeTokens } from './utils/colorTransform.js';
+import chroma from 'https://unpkg.com/chroma-js@3.0.0/index.js';
 
 // Get references to DOM elements
 const picker = document.getElementById('colorPicker');
 const hexInput = document.getElementById('hexInput');
 const results = document.getElementById('results');
+const colorTypeIndicator = document.createElement('div');
+colorTypeIndicator.className = 'color-type';
+hexInput.parentNode.appendChild(colorTypeIndicator);
 
 // Listen for color changes in the color picker
 picker.addEventListener('input', () => {
   hexInput.value = picker.value.toUpperCase();
+  updateColorType(picker.value);
   render(picker.value);
 });
 
@@ -17,6 +22,7 @@ hexInput.addEventListener('input', (e) => {
   // Only update if it's a valid hex code
   if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
     picker.value = value;
+    updateColorType(value);
     render(value);
   }
 });
@@ -29,8 +35,27 @@ hexInput.addEventListener('paste', (e) => {
   const cleanHex = '#' + pastedText.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
   hexInput.value = cleanHex.toUpperCase();
   picker.value = cleanHex;
+  updateColorType(cleanHex);
   render(cleanHex);
 });
+
+function updateColorType(color) {
+  const [h, s, l] = chroma(color).hsl();
+  let type = '';
+  
+  // HSL values are in ranges:
+  // H: 0-360 (degrees)
+  // S: 0-1 (0-100%)
+  // L: 0-1 (0-100%)
+  
+  if (l > 0.8) {
+    type = `Light color (HSL: ${Math.round(h)}°, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%, dark background mix + saturation adjustment)`;
+  } else {
+    type = `Color (HSL: ${Math.round(h)}°, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%, contrast + saturation adjustment)`;
+  }
+  
+  colorTypeIndicator.textContent = type;
+}
 
 /**
  * Renders color swatches showing the original color and its dark mode variants
@@ -51,6 +76,51 @@ function render(inputColor) {
   darkModeGroup.className = 'swatch-group dark';
   darkModeGroup.innerHTML = '<h3>Dark Mode</h3>';
 
+  // Create a row for Base 500 variants
+  const base500Row = document.createElement('div');
+  base500Row.className = 'base500-row';
+  
+  // Add Base 500 variants to the row
+  const base500Variants = [
+    { 
+      label: 'Base 500 (Background)', 
+      bg: tokens['custom-base-500_dark'], 
+      text: tokens.textColorOnActionColor_dark, 
+      dark: true,
+      accessibility: '✓ WCAG AA UI compliant'
+    },
+    { 
+      label: 'Base 500 (Text)', 
+      bg: tokens['action-color-text_dark'], 
+      text: '#000000',
+      dark: true,
+      accessibility: '✓ WCAG AA Text compliant'
+    }
+  ];
+
+  // Add Base 500 variants to the row
+  for (const swatch of base500Variants) {
+    base500Row.appendChild(createSwatch(swatch));
+  }
+
+  // Add the row to dark mode group
+  darkModeGroup.appendChild(base500Row);
+
+  // Define the remaining dark mode swatches
+  const darkSwatches = [
+    { 
+      label: 'Base 900', 
+      bg: tokens['custom-base-900_dark'],
+      dark: true
+    },
+    { 
+      label: 'Base 100', 
+      bg: tokens['custom-base-100_dark'],
+      text: tokens['custom-base-500_dark'],
+      dark: true
+    }
+  ];
+
   // Define the swatches to display
   const lightSwatches = [
     { 
@@ -69,33 +139,12 @@ function render(inputColor) {
     }
   ];
 
-  const darkSwatches = [
-    { 
-      label: 'Base 500', 
-      bg: tokens['custom-base-500_dark'], 
-      text: tokens.textColorOnActionColor_dark, 
-      dark: true,
-      accessibility: '✓ WCAG AA compliant'
-    },
-    { 
-      label: 'Base 900', 
-      bg: tokens['custom-base-900_dark'],
-      dark: true
-    },
-    { 
-      label: 'Base 100', 
-      bg: tokens['custom-base-100_dark'],
-      text: tokens['custom-base-500_dark'],
-      dark: true
-    }
-  ];
-
   // Create and display light mode swatches
   for (const swatch of lightSwatches) {
     lightModeGroup.appendChild(createSwatch(swatch));
   }
 
-  // Create and display dark mode swatches
+  // Create and display remaining dark mode swatches
   for (const swatch of darkSwatches) {
     darkModeGroup.appendChild(createSwatch(swatch));
   }
@@ -171,7 +220,7 @@ function addUIComponents(container, tokens, isDark) {
   pill.className = 'ui-component';
   pill.innerHTML = `
     <h4>Pill</h4>
-    <div class="pill" style="color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}; background-color: ${isDark ? tokens['custom-base-100_dark'] : tokens['custom-base-100_light']}">
+    <div class="pill" style="color: ${isDark ? tokens['action-color-text_dark'] : tokens['custom-base-500_light']}; background-color: ${isDark ? tokens['custom-base-100_dark'] : tokens['custom-base-100_light']}">
       Action Pill
     </div>
   `;
@@ -182,7 +231,7 @@ function addUIComponents(container, tokens, isDark) {
   boldText.className = 'ui-component';
   boldText.innerHTML = `
     <h4>Bold Text</h4>
-    <div class="bold-text" style="color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}">
+    <div class="bold-text" style="color: ${isDark ? tokens['action-color-text_dark'] : tokens['custom-base-500_light']}">
       This is bold text using the action color
     </div>
   `;
@@ -193,7 +242,7 @@ function addUIComponents(container, tokens, isDark) {
   messagesIcon.className = 'ui-component';
   messagesIcon.innerHTML = `
     <h4>Messages Icon</h4>
-    <div class="messages-icon" style="color: ${isDark ? tokens['custom-base-500_dark'] : tokens['custom-base-500_light']}">
+    <div class="messages-icon" style="color: ${isDark ? tokens['action-color-text_dark'] : tokens['custom-base-500_light']}">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
       </svg>

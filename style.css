@@ -5,7 +5,7 @@ body {
   }
   
   .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
   }
   
@@ -43,7 +43,7 @@ body {
   
   .swatch-group {
     flex: 1;
-    min-width: 300px;
+    min-width: 500px;
     padding: 1.5rem;
     border-radius: 8px;
     background: #fff;
@@ -164,5 +164,23 @@ body {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 400;
+  }
+  
+  .color-type {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  
+  .base500-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .base500-row .swatch-wrapper {
+    flex: 1;
   }
   
