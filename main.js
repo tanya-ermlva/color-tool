@@ -226,13 +226,13 @@ function addUIComponents(container, tokens, isDark) {
   `;
   uiComponents.appendChild(pill);
 
-  // Bold Text
+  // Text component
   const boldText = document.createElement('div');
   boldText.className = 'ui-component';
   boldText.innerHTML = `
-    <h4>Bold Text</h4>
+    <h4>Text</h4>
     <div class="bold-text" style="color: ${isDark ? tokens['action-color-text_dark'] : tokens['custom-base-500_light']}">
-      This is bold text using the action color
+      This is text using the action color
     </div>
   `;
   uiComponents.appendChild(boldText);
