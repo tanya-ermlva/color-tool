@@ -76,15 +76,39 @@ export function getDarkModeTokens(actionColor) {
   return {
     // Light mode tokens
     'custom-base-500_light': color.hex(),
-    'custom-base-900_light': chroma.mix(color, '#000', 0.6).hex(),
-    'custom-base-100_light': chroma.mix(color, '#fff', 0.8).hex(),
+    'custom-base-900_light': (() => {
+      // Mix with black first
+      let darkColor = chroma.mix(color, 'black', 0.6);
+      // Check if saturation dropped too much
+      const finalS = darkColor.get('hsl.s');
+      const originalS = color.get('hsl.s');
+      if (finalS < 0.3 && originalS > 0.4) {
+        // Boost saturation while keeping the same lightness
+        const [h, _, l] = darkColor.hsl();
+        darkColor = chroma.hsl(h, Math.min(0.4, originalS * 0.7), l);
+      }
+      return darkColor.hex();
+    })(),
+    'custom-base-100_light': chroma.mix(color, 'white', 0.8).hex(),
     textColorOnActionColor_light,
     
     // Dark mode tokens
     'custom-base-500_dark': uiVariant.hex(),           // UI element variant (message bubbles)
     'action-color-text_dark': textVariant.hex(),       // Text variant (text and icons)
     'custom-base-900_dark': chroma.mix(textVariant, 'white', 0.1).hex(),
-    'custom-base-100_dark': chroma.mix(textVariant, 'black', 0.95).hex(),
+    'custom-base-100_dark': (() => {
+      // Mix with black first
+      let darkColor = chroma.mix(textVariant, 'black', 0.88);
+      // Check if saturation dropped too much
+      const finalS = darkColor.get('hsl.s');
+      const originalS = textVariant.get('hsl.s');
+      if (finalS < 0.3 && originalS > 0.4) {
+        // Boost saturation while keeping the same lightness
+        const [h, _, l] = darkColor.hsl();
+        darkColor = chroma.hsl(h, Math.min(0.4, originalS * 0.7), l);
+      }
+      return darkColor.hex();
+    })(),
     textColorOnActionColor_dark,                       // Text color for use on action color background
   };
 }
